@@ -1,15 +1,18 @@
 import arcade.key
+class Model:
+    def __init__(self,world,x,y,angle):
+        self.world = world
+        self.x = x
+        self.y = y
+        self.angle = 0
 
-class Ship:
+class Ship(Model):
     DIR_HORIZONTAL = 0
     DIR_VERTICAL = 1
  
     def __init__(self, world, x, y):
-        self.world = world
-        self.x = x
-        self.y = y
+        super().__init__(world, x, y, 0)
         self.direction = Ship.DIR_VERTICAL
-        self.angle = 0 
  
     def switch_direction(self):
         if self.direction == Ship.DIR_HORIZONTAL:
@@ -29,11 +32,15 @@ class Ship:
             if self.x > self.world.width:
                 self.x = 0
             self.x += 5
+class Gold(Model):
+    def __init__(self,world,x,y):
+        super().__init__(world, x, y, 0)
 
 class World:
     def __init__ (self,width,height):
         self.width = width
         self.height = height
+        self.gold = Gold(self,400,400)
 
         self.ship = Ship(self,100,100)
     def on_key_press(self,key,key_modifiers):
